@@ -12,6 +12,8 @@ import com.elly.web.dto.BoardDTO;
 public interface BoardDAO {
 
 	 List<BoardDTO> boardList();
+
+	String detail(int bno);
 	
 
 }

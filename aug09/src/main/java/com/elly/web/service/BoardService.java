@@ -18,6 +18,10 @@ public class BoardService {
 		return boardDAO.boardList();
 	}
 
+	public String detail(int bno) {
+		return boardDAO.detail(bno);
+	}
+
 	
 	
 	
