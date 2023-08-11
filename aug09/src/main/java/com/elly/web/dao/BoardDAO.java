@@ -13,7 +13,11 @@ public interface BoardDAO {
 
 	 List<BoardDTO> boardList();
 
-	String detail(int bno);
+	BoardDTO detail(int bno);
+
+	int write(BoardDTO dto);
+
+	void readUP(int bno);
 	
 
 }

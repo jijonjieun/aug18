@@ -2,6 +2,8 @@ package com.elly.web.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,23 +35,58 @@ public class BoardController {
 	@ResponseBody
 	@PostMapping("/detail")
 	public String detail(@RequestParam("bno") int bno) {
-		System.out.println(bno);
+		// System.out.println(bno);
 		
-		String content = boardservice.detail(bno);
+		BoardDTO dto = boardservice.detail(bno);
+	
 		
-		
+
 		JSONObject json = new JSONObject();
-		json.put("content",content);
+		// JSONObject e = new JSONObject();
+		json.put("content", dto.getBcontent());
+		json.put("uuid", dto.getUuid());
+
+		System.out.println(json.toString());
 		
 		
-		return  json.toString();
+		return json.toString();
 	}
+
 	
 	
 	@GetMapping("/write")
 	public String write() {
 		return "write";
 	}
+	
+	
+	@PostMapping("/write")
+	public String write(HttpServletRequest request) {
+		System.out.println(request.getParameter("title"));
+		System.out.println(request.getParameter("content"));
+		BoardDTO dto = new BoardDTO();
+		dto.setBtitle(request.getParameter("title"));
+		dto.setBcontent(request.getParameter("content"));
+		dto.setM_id("dy0201"); //임시로 members에 있는 id를 넣어주세요.
+		dto.setBip("0.0.0.0");
+		
+		int result = boardservice.write(dto);
+		System.out.println(result);
+		
+		
+		return "redirect:/board";
+		
+	}
+	
+	
+	
+	@PostMapping("/delete")
+	public String delete(BoardDTO dto) {
+		System.out.println(dto.getBno());
+		return "redirect:/board";
+	}
+	
+	
 	
 	
 
