@@ -3,6 +3,7 @@ package com.elly.web.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,15 +39,15 @@ public class BoardController {
 		// System.out.println(bno);
 		
 		BoardDTO dto = boardservice.detail(bno);
-	
-		
+
 
 		JSONObject json = new JSONObject();
 		// JSONObject e = new JSONObject();
 		json.put("content", dto.getBcontent());
 		json.put("uuid", dto.getUuid());
+		json.put("ip", dto.getBip());
 
-		System.out.println(json.toString());
+
 		
 		
 		return json.toString();
@@ -61,14 +62,14 @@ public class BoardController {
 	
 	
 	@PostMapping("/write")
-	public String write(HttpServletRequest request) {
-		System.out.println(request.getParameter("title"));
-		System.out.println(request.getParameter("content"));
+	public String write(HttpServletRequest request, HttpSession session) {
+		//System.out.println(request.getParameter("title"));
+		//System.out.println(request.getParameter("content"));
 		BoardDTO dto = new BoardDTO();
 		dto.setBtitle(request.getParameter("title"));
 		dto.setBcontent(request.getParameter("content"));
-		dto.setM_id("dy0201"); //임시로 members에 있는 id를 넣어주세요.
-		dto.setBip("0.0.0.0");
+	dto.setM_id(String.valueOf(session.getAttribute("mid")));
+		//세션은 오브젝트상태로있기때문에 스트링밸류오브로 스트링으로바꿔줌
 		
 		int result = boardservice.write(dto);
 		System.out.println(result);
@@ -85,6 +86,9 @@ public class BoardController {
 		System.out.println(dto.getBno());
 		return "redirect:/board";
 	}
+	
+	
+	
 	
 	
 	

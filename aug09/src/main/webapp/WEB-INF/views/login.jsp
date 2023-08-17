@@ -16,26 +16,57 @@
 			background-color: rgba(240, 255, 240, 0.3);
 		}
 	</style>
-	<script type="text/javascript">
+	<script>
+	//자바스크립트일때
 		function loginCheck() {
-			let id = document.querySelector("#id");
-			let pw = document.querySelector("#pw");
+			let id = document.querySelector("#id");//창입니다
+			let pw = document.querySelector("#pw");//input창 입니다
 			let checkItems = [ id, pw ];
-			//alert(id.value + "" + pw.value);
+			//alert(id + " / " + pw + " / " + checkItems);
+			
+			
+			
+			
+			
 			let flag = checkItems.every(function(item) {
 				if (item.value === null || item.value === "") {
-					alert(item.parentNode.querySelector("label").innerHTML);
+					//alert(item.parentNode.parentNode.childNodes[1].innerHTML + "를 다시 입력해주세요");
+					//alert(item.parentNode.parentNode.querySelector("label").innerHTML + "를 다시 입력해주세요");
+					alert(item.parentNode.previousElementSibling.innerHTML + "를 다시 입력해주세요");
 					item.focus();
 				}
-				return item.value == "";
+				return item.value !== ""; //비어있으면 거짓
 			});
 
 			if (flag == true) {
-				alert("로그인합니다");
+				// alert("로그인합니다");
 				//writeForm.submit();
+				//가상form만들기
+				let form = document.createElement("form");
+	            form.setAttribute("action", "./login");
+	            form.setAttribute("method", "post");
+	            
+	            let idField = document.createElement("input");
+	            idField.setAttribute("type", "hidden");
+	            idField.setAttribute("name", "id");
+	            idField.setAttribute("value", id.value);
+	            form.appendChild(idField);
+	            
+	            let pwField = document.createElement("input");
+	            pwField.setAttribute("type", "hidden");
+	            pwField.setAttribute("name", "pw");
+	            pwField.setAttribute("value", pw.value);
+	            form.appendChild(pwField);
+	            
+	            document.body.appendChild(form);
+	            form.submit();       
+
+
+				
 			}
 		}
 	</script>
+
 </head>
 <body>
 <%@ include file="menu.jsp" %>
@@ -44,6 +75,11 @@
                <div class="rounded-3 login-form">
                		<h2>LOGIN</h2>
                		<img alt="login" src="./img/login.png" width="250px;">
+				<c:if test="${param.error eq 'login' }">
+				<div class="mb-3 row">
+				<h3 style="color:black;">로그인하세요</h3>
+				</div>
+				</c:if>
 				<div class="mb-3 row">
 					<label for="staticEmail" class="col-sm-3 col-form-label">I D</label>
 					<div class="col-sm-8">
