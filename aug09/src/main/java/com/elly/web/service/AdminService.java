@@ -1,5 +1,6 @@
 package com.elly.web.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +19,16 @@ public class AdminService {
 	
 
 }
+
+	public List<Map<String, Object>> list() {
+		// TODO Auto-generated method stub
+		return  adminDAO.list();
+	}
+
+	public void noticeWrite(Map<String, Object> map) {
+		adminDAO.noticeWrite(map);
+	
+		
+	}
 	
 }
